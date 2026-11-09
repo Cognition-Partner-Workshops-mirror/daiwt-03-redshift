@@ -1,2 +1,147 @@
-2026-11-09T15:30:13+00:00 == setup
-2026-11-09T15:30:15+00:00 CREATE DATABASE daiwt_03_retail
+2026-11-09T15:30:23+00:00 == setup
+2026-11-09T15:30:25+00:00 CREATE DATABASE daiwt_03_retail
+2026-11-09T15:30:26+00:00 recreating schemas core, mart
+2026-11-09T15:30:28+00:00   exec 01_schemas.sql: -- Foundation: schemas. setup drops/recreates these; kept here so the estate
+2026-11-09T15:30:29+00:00   exec 01_schemas.sql: CREATE SCHEMA IF NOT EXISTS mart
+2026-11-09T15:30:30+00:00   exec 02_core_tables.sql: -- core.* landing tables: append-only raw extract, Redshift-flavored DDL.
+2026-11-09T15:30:32+00:00   exec 02_core_tables.sql: CREATE TABLE core.stores (
+2026-11-09T15:30:33+00:00   exec 02_core_tables.sql: CREATE TABLE core.products (
+2026-11-09T15:30:34+00:00   exec 02_core_tables.sql: CREATE TABLE core.orders (
+2026-11-09T15:30:35+00:00   exec 02_core_tables.sql: CREATE TABLE core.order_items (
+2026-11-09T15:30:36+00:00   exec 02_core_tables.sql: CREATE TABLE core.payments (
+2026-11-09T15:30:37+00:00   exec 02_core_tables.sql: CREATE TABLE core.returns (
+2026-11-09T15:30:38+00:00   exec 02_core_tables.sql: CREATE TABLE core.shipments (
+2026-11-09T15:30:39+00:00   exec 02_core_tables.sql: CREATE TABLE core.web_events (
+2026-11-09T15:30:40+00:00   exec 02_core_tables.sql: CREATE TABLE core.campaign_touches (
+2026-11-09T15:30:41+00:00   exec 03_udfs.sql: -- SQL UDFs only (Redshift no longer allows Python UDFs).
+2026-11-09T15:30:42+00:00   exec 03_udfs.sql: -- Strip a phone string down to its digits.
+2026-11-09T15:31:26+00:00 loaded core.campaign_touches: 8000 rows
+2026-11-09T15:31:42+00:00 loaded core.customers: 1500 rows
+2026-11-09T15:35:24+00:00 loaded core.order_items: 40938 rows
+2026-11-09T15:37:20+00:00 loaded core.orders: 20000 rows
+2026-11-09T15:39:17+00:00 loaded core.payments: 20000 rows
+2026-11-09T15:39:19+00:00 loaded core.products: 300 rows
+2026-11-09T15:39:35+00:00 loaded core.returns: 2518 rows
+2026-11-09T15:40:48+00:00 loaded core.shipments: 12817 rows
+2026-11-09T15:40:49+00:00 loaded core.stores: 40 rows
+2026-11-09T15:43:06+00:00 loaded core.web_events: 25000 rows
+2026-11-09T15:43:06+00:00 == build
+2026-11-09T15:43:06+00:00 build daily_revenue: legacy/redshift/units/daily_revenue/etl.sql
+2026-11-09T15:43:06+00:00   exec etl.sql: -- daily_revenue: revenue and order count per day x channel.
+2026-11-09T15:43:08+00:00   exec etl.sql: CREATE TABLE mart.daily_revenue
+2026-11-09T15:43:10+00:00 build customer_ltv: legacy/redshift/units/customer_ltv/etl.sql
+2026-11-09T15:43:10+00:00   exec etl.sql: -- customer_ltv: lifetime revenue per customer. CHAR(4) region padding is
+2026-11-09T15:43:11+00:00   exec etl.sql: CREATE TABLE mart.customer_ltv
+2026-11-09T15:43:17+00:00 build geo_rollup: legacy/redshift/units/geo_rollup/etl.sql
+2026-11-09T15:43:17+00:00   exec etl.sql: -- geo_rollup: GROUPING SETS over region / store state. grouping_id keeps the
+2026-11-09T15:43:17+00:00   exec etl.sql: CREATE TABLE mart.geo_rollup AS
+2026-11-09T15:43:19+00:00 build churn_flags: legacy/redshift/units/churn_flags/etl.sql
+2026-11-09T15:43:19+00:00   exec etl.sql: -- churn_flags: plpgsql procedure with a FOR loop over customers and a temp
+2026-11-09T15:43:20+00:00   exec etl.sql: CREATE TABLE mart.churn_flags (
+2026-11-09T15:43:21+00:00   exec etl.sql: CREATE OR REPLACE PROCEDURE sp_build_churn_flags()
+2026-11-09T15:43:22+00:00   exec etl.sql: CALL sp_build_churn_flags()
+2026-11-09T15:44:37+00:00 build product_perf: legacy/redshift/units/product_perf/etl.sql
+2026-11-09T15:44:37+00:00   exec etl.sql: -- product_perf: per-product sales with a LISTAGG of top store codes.
+2026-11-09T15:44:38+00:00   exec etl.sql: CREATE TABLE mart.product_perf
+2026-11-09T15:44:45+00:00 build store_weekly: legacy/redshift/units/store_weekly/etl.sql
+2026-11-09T15:44:45+00:00   exec etl.sql: -- store_weekly: weekly revenue per store.
+2026-11-09T15:44:46+00:00   exec etl.sql: CREATE TABLE mart.store_weekly
+2026-11-09T15:44:48+00:00 build category_mix: legacy/redshift/units/category_mix/etl.sql
+2026-11-09T15:44:48+00:00   exec etl.sql: -- category_mix: revenue share per product category via RATIO_TO_REPORT.
+2026-11-09T15:44:48+00:00   exec etl.sql: CREATE TABLE mart.category_mix AS
+2026-11-09T15:44:50+00:00 build basket_affinity: legacy/redshift/units/basket_affinity/etl.sql
+2026-11-09T15:44:50+00:00   exec etl.sql: -- basket_affinity: product pairs bought in the same order, support >= 5.
+2026-11-09T15:44:50+00:00   exec etl.sql: CREATE TABLE mart.basket_affinity AS
+2026-11-09T15:44:52+00:00 build sessionization: legacy/redshift/units/sessionization/etl.sql
+2026-11-09T15:44:52+00:00   exec etl.sql: -- sessionization: web sessions per customer, 30-minute gap, running SUM id.
+2026-11-09T15:44:52+00:00   exec etl.sql: CREATE TABLE mart.web_sessions
+2026-11-09T15:44:58+00:00 build shipping_sla: legacy/redshift/units/shipping_sla/etl.sql
+2026-11-09T15:44:58+00:00   exec etl.sql: -- shipping_sla: carrier SLA using DATEDIFF(hour) (Redshift counts hour
+2026-11-09T15:44:58+00:00   exec etl.sql: CREATE TABLE mart.shipping_sla AS
+2026-11-09T15:45:00+00:00 build rfm_segments: legacy/redshift/units/rfm_segments/etl.sql
+2026-11-09T15:45:00+00:00   exec etl.sql: -- rfm_segments: NTILE(5) over recency/frequency/monetary as of '2025-12-31',
+2026-11-09T15:45:00+00:00   exec etl.sql: CREATE TABLE mart.rfm_segments
+2026-11-09T15:45:09+00:00 build promo_lift: legacy/redshift/units/promo_lift/etl.sql
+2026-11-09T15:45:09+00:00   exec etl.sql: -- promo_lift: order-value distribution per channel (MEDIAN + PERCENTILE_CONT).
+2026-11-09T15:45:10+00:00   exec etl.sql: CREATE TABLE mart.promo_lift AS
+2026-11-09T15:45:11+00:00 build payment_mix: legacy/redshift/units/payment_mix/etl.sql
+2026-11-09T15:45:11+00:00   exec etl.sql: -- payment_mix: payment method mix using DECODE, NVL and NVL2.
+2026-11-09T15:45:12+00:00   exec etl.sql: CREATE TABLE mart.payment_mix AS
+2026-11-09T15:45:14+00:00 build returns_rate: legacy/redshift/units/returns_rate/etl.sql
+2026-11-09T15:45:14+00:00   exec etl.sql: -- returns_rate: returns per category. return_rate_int is INTEGER division
+2026-11-09T15:45:14+00:00   exec etl.sql: CREATE TABLE mart.returns_rate AS
+2026-11-09T15:45:16+00:00 build attribution: legacy/redshift/units/attribution/etl.sql
+2026-11-09T15:45:16+00:00   exec etl.sql: -- attribution: SUPER/PartiQL navigation over campaign_touches payloads.
+2026-11-09T15:45:17+00:00   exec etl.sql: CREATE TABLE mart.attribution AS
+2026-11-09T15:45:18+00:00 build inventory_snapshot: legacy/redshift/units/inventory_snapshot/etl.sql
+2026-11-09T15:45:18+00:00   exec etl.sql: -- inventory_snapshot: plpgsql upsert — staging temp table + DELETE/INSERT
+2026-11-09T15:45:19+00:00   exec etl.sql: CREATE TABLE mart.inventory_snapshot (
+2026-11-09T15:45:20+00:00   exec etl.sql: CREATE OR REPLACE PROCEDURE sp_upsert_inventory(p_snapshot DATE)
+2026-11-09T15:45:21+00:00   exec etl.sql: CALL sp_upsert_inventory('2025-12-31'::DATE)
+2026-11-09T15:45:25+00:00 build finance_export: legacy/redshift/units/finance_export/etl.sql
+2026-11-09T15:45:25+00:00   exec etl.sql: -- finance_export: monthly finance rollup on the fiscal calendar
+2026-11-09T15:45:25+00:00   exec etl.sql: CREATE TABLE mart.finance_monthly AS
+2026-11-09T15:45:27+00:00 build cohort_retention: legacy/redshift/units/cohort_retention/etl.sql
+2026-11-09T15:45:27+00:00   exec etl.sql: -- cohort_retention: TEMP TABLE steps + DATEDIFF(month) retention matrix.
+2026-11-09T15:45:27+00:00   exec etl.sql: CREATE TABLE mart.cohort_retention (
+2026-11-09T15:45:28+00:00   exec etl.sql: DROP TABLE IF EXISTS tmp_cohorts
+2026-11-09T15:45:29+00:00   exec etl.sql: CREATE TEMP TABLE tmp_cohorts AS
+2026-11-09T15:45:30+00:00   exec etl.sql: DROP TABLE IF EXISTS tmp_activity
+2026-11-09T15:45:30+00:00   exec etl.sql: CREATE TEMP TABLE tmp_activity AS
+2026-11-09T15:45:31+00:00   exec etl.sql: INSERT INTO mart.cohort_retention
+2026-11-09T15:45:33+00:00   exec etl.sql: DROP TABLE tmp_cohorts
+2026-11-09T15:45:33+00:00   exec etl.sql: DROP TABLE tmp_activity
+2026-11-09T15:45:34+00:00 build orchestration: legacy/redshift/99_orchestration/exec_summary/etl.sql
+2026-11-09T15:45:34+00:00   exec etl.sql: -- exec_summary: executive summary mart joining four earlier-wave marts.
+2026-11-09T15:45:34+00:00   exec etl.sql: CREATE TABLE mart.exec_summary AS
+2026-11-09T15:45:37+00:00 == capture
+2026-11-09T15:45:40+00:00 captured foundation/customers: 1500 rows
+2026-11-09T15:45:41+00:00 captured foundation/stores: 40 rows
+2026-11-09T15:45:43+00:00 captured foundation/products: 300 rows
+2026-11-09T15:45:45+00:00 captured foundation/orders: 20000 rows
+2026-11-09T15:45:50+00:00 captured foundation/order_items: 40938 rows
+2026-11-09T15:45:53+00:00 captured foundation/payments: 20000 rows
+2026-11-09T15:45:55+00:00 captured foundation/returns: 2518 rows
+2026-11-09T15:45:58+00:00 captured foundation/shipments: 12817 rows
+2026-11-09T15:46:02+00:00 captured foundation/web_events: 25000 rows
+2026-11-09T15:46:04+00:00   NOTE foundation/campaign_touches: column payload oid 4000 -> string
+2026-11-09T15:46:04+00:00 captured foundation/campaign_touches: 8000 rows
+2026-11-09T15:46:05+00:00 captured daily_revenue/daily_revenue: 1460 rows
+2026-11-09T15:46:07+00:00 captured daily_revenue/report: 48 rows
+2026-11-09T15:46:08+00:00 captured customer_ltv/customer_ltv: 1500 rows
+2026-11-09T15:46:10+00:00 captured customer_ltv/report: 6 rows
+2026-11-09T15:46:11+00:00 captured geo_rollup/geo_rollup: 21 rows
+2026-11-09T15:46:12+00:00 captured geo_rollup/report: 21 rows
+2026-11-09T15:46:14+00:00 captured churn_flags/churn_flags: 1500 rows
+2026-11-09T15:46:15+00:00 captured churn_flags/report: 4 rows
+2026-11-09T15:46:16+00:00 captured product_perf/product_perf: 300 rows
+2026-11-09T15:46:17+00:00 captured product_perf/report: 6 rows
+2026-11-09T15:46:19+00:00 captured store_weekly/store_weekly: 2120 rows
+2026-11-09T15:46:20+00:00 captured store_weekly/report: 40 rows
+2026-11-09T15:46:21+00:00 captured category_mix/category_mix: 6 rows
+2026-11-09T15:46:23+00:00 captured category_mix/report: 6 rows
+2026-11-09T15:46:24+00:00 captured basket_affinity/basket_affinity: 50 rows
+2026-11-09T15:46:25+00:00 captured basket_affinity/report: 50 rows
+2026-11-09T15:46:28+00:00 captured sessionization/web_sessions: 21280 rows
+2026-11-09T15:46:29+00:00 captured sessionization/report: 1500 rows
+2026-11-09T15:46:30+00:00 captured shipping_sla/shipping_sla: 4 rows
+2026-11-09T15:46:31+00:00 captured shipping_sla/report: 4 rows
+2026-11-09T15:46:33+00:00 captured rfm_segments/rfm_segments: 1500 rows
+2026-11-09T15:46:34+00:00 captured rfm_segments/report: 103 rows
+2026-11-09T15:46:35+00:00 captured promo_lift/promo_lift: 4 rows
+2026-11-09T15:46:36+00:00 captured promo_lift/report: 4 rows
+2026-11-09T15:46:37+00:00 captured payment_mix/payment_mix: 5 rows
+2026-11-09T15:46:38+00:00 captured payment_mix/report: 4 rows
+2026-11-09T15:46:39+00:00 captured returns_rate/returns_rate: 6 rows
+2026-11-09T15:46:40+00:00 captured returns_rate/report: 6 rows
+2026-11-09T15:46:41+00:00 captured attribution/attribution: 100 rows
+2026-11-09T15:46:43+00:00 captured attribution/report: 20 rows
+2026-11-09T15:46:44+00:00 captured inventory_snapshot/inventory_snapshot: 300 rows
+2026-11-09T15:46:45+00:00 captured inventory_snapshot/report: 50 rows
+2026-11-09T15:46:46+00:00 captured finance_export/finance_monthly: 12 rows
+2026-11-09T15:46:47+00:00 captured finance_export/report: 5 rows
+2026-11-09T15:46:48+00:00 captured cohort_retention/cohort_retention: 65 rows
+2026-11-09T15:46:49+00:00 captured cohort_retention/report: 65 rows
+2026-11-09T15:46:50+00:00 captured orchestration/exec_summary: 1 rows
+2026-11-09T15:46:52+00:00 captured orchestration/report: 1 rows
+2026-11-09T15:46:53+00:00 done

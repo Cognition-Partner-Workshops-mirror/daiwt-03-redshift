@@ -1,9 +1,9 @@
 {
   "source": "Amazon Redshift Serverless",
-  "redshift_version": "PostgreSQL 8.0.2 on i686-pc-linux-gnu, compiled by GCC gcc (GCC) 3.4.2 20041017 (Red Hat 3.4.2-6.fc3), Redshift 1.0.436211\u0000",
-  "database": "mig_redshift_src",
-  "captured_at": "2026-09-30T21:55:31+00:00",
-  "git_commit": "4317c34eceeccd2666d3069aace229e64e14f9b1",
+  "redshift_version": "PostgreSQL 8.0.2 on i686-pc-linux-gnu, compiled by GCC gcc (GCC) 3.4.2 20041017 (Red Hat 3.4.2-6.fc3), Redshift 1.0.535482",
+  "database": "daiwt_03_retail",
+  "captured_at": "2026-11-09T15:46:53+00:00",
+  "git_commit": "a2f631fa46755fa8bc4a404b9a6fdb0bb2c4576a",
   "seed_csv_sha256": {
     "campaign_touches.csv": "dcf89294c68faa09c4bc38863b74ad4bc42a5b62659b4c2fd6729c19f0b7d02b",
     "customers.csv": "34b77eaa49e0ebfa71bfeb36f2f5f6f6bd2c744f07465eeb06adf566e830702d",
