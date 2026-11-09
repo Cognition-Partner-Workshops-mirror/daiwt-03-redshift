@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "month",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "fiscal_year",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "fiscal_qtr",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 12,
+  "keys": [
+    "month"
+  ],
+  "sha256": "0789b037bf310ad5f74fd14c193864fad776ba017b900044d860f34b951cfa44"
+}

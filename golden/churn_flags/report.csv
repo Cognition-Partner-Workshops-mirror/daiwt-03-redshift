@@ -1,0 +1,5 @@
+churn_flag,customers,avg_days_since_order
+active,1323,22
+at_risk,30,115
+churned,1,203
+never_ordered,146,\N

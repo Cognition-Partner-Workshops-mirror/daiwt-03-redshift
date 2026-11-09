@@ -1,0 +1,17 @@
+# Reconciliation tolerances. Defaults apply to every output column.
+# An override loosens one column of one unit output and must cite the
+# .migration/06_decisions.md row that approved it; validate_unit.py refuses
+# overrides without a decision reference.
+default:
+  decimal_abs: 0.000001   # effectively exact: a one-cent drift is a FAIL
+  float_rel: 1.0e-9
+  float_abs: 1.0e-9
+  string_rstrip: false    # CHAR padding differences are a FAIL unless approved
+
+overrides: {}
+# overrides:
+#   customer_ltv:
+#     customer_ltv:
+#       region:
+#         string_rstrip: true
+#         decision: D-003

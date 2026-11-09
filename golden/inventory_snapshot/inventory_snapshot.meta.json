@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "product_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "snapshot_date",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "units_sold",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "on_hand",
+      "family": "int",
+      "redshift_type_oid": 23
+    }
+  ],
+  "row_count": 300,
+  "keys": [
+    "product_id"
+  ],
+  "sha256": "673f397613b53e372e96b517ac8ba0d2ba5e4f16375bee3f26021b302e4746b9"
+}

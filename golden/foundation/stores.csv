@@ -1,0 +1,41 @@
+store_id,region,store_name,city,state
+1,EAST,Store 001,Boston,MA
+10,WEST,Store 010,Portland,OR
+11,EAST,Store 011,Newark,NJ
+12,NRTH,Store 012,Minneapolis,MN
+13,SOTH,Store 013,Miami,FL
+14,WEST,Store 014,Seattle,WA
+15,EAST,Store 015,New York,NY
+16,NRTH,Store 016,Madison,WI
+17,SOTH,Store 017,Atlanta,GA
+18,NE  ,Store 018,Burlington,VT
+19,SW  ,Store 019,Santa Fe,NM
+2,NRTH,Store 002,Chicago,IL
+20,WEST,Store 020,Seattle,WA
+21,EAST,Store 021,New York,NY
+22,NRTH,Store 022,Madison,WI
+23,SOTH,Store 023,Atlanta,GA
+24,WEST,Store 024,Los Angeles,CA
+25,EAST,Store 025,Boston,MA
+26,NRTH,Store 026,Chicago,IL
+27,SOTH,Store 027,Austin,TX
+28,NE  ,Store 028,Burlington,VT
+29,SW  ,Store 029,Santa Fe,NM
+3,SOTH,Store 003,Austin,TX
+30,WEST,Store 030,Los Angeles,CA
+31,EAST,Store 031,Boston,MA
+32,NRTH,Store 032,Chicago,IL
+33,SOTH,Store 033,Austin,TX
+34,WEST,Store 034,Portland,OR
+35,EAST,Store 035,Newark,NJ
+36,NRTH,Store 036,Minneapolis,MN
+37,SOTH,Store 037,Miami,FL
+38,NE  ,Store 038,Burlington,VT
+39,SW  ,Store 039,Santa Fe,NM
+4,WEST,Store 004,Portland,OR
+40,WEST,Store 040,Portland,OR
+5,EAST,Store 005,Newark,NJ
+6,NRTH,Store 006,Minneapolis,MN
+7,SOTH,Store 007,Miami,FL
+8,NE  ,Store 008,Burlington,VT
+9,SW  ,Store 009,Santa Fe,NM

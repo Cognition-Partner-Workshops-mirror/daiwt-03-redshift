@@ -1,0 +1,6 @@
+method,method_family,method_status,payment_count,amount_total,amount_share
+card,CARD,captured,8536,4508579.50,0.4276
+cash,CASH,captured,2952,1552690.13,0.1472
+gift_card,DIGITAL,captured,2870,1536681.94,0.1457
+unknown,OTHER,missing,2826,1454619.53,0.1379
+wallet,DIGITAL,captured,2816,1491254.15,0.1414

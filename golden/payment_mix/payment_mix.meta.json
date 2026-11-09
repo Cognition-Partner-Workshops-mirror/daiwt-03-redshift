@@ -1,0 +1,39 @@
+{
+  "columns": [
+    {
+      "name": "method",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "method_family",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "method_status",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "payment_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "amount_total",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "amount_share",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 5,
+  "keys": [
+    "method"
+  ],
+  "sha256": "4abfe51d83caeae78c99fb0a8f8456e57b14b52d5b014ef197b03ddc9337137c"
+}

@@ -1,0 +1,5 @@
+sales_channel,order_count,median_order_value,p90_order_value
+mobile,4924,390.21,1093.96
+phone,5049,395.78,1107.37
+store,4955,397.56,1110.56
+web,5072,414.44,1094.91

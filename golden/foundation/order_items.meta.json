@@ -1,0 +1,39 @@
+{
+  "columns": [
+    {
+      "name": "order_item_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "order_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "product_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "quantity",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "unit_price",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "discount",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 40938,
+  "keys": [
+    "order_item_id"
+  ],
+  "sha256": "2f4b8d760b2555ae9c7b38a6fdc00e7a8f4a0b145460ddf52c51f334f9fce729"
+}

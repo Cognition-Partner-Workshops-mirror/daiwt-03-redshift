@@ -1,0 +1,49 @@
+{
+  "columns": [
+    {
+      "name": "product_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "sku",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "product_name",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "category",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "subcategory",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "unit_price",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "cost",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "active",
+      "family": "bool",
+      "redshift_type_oid": 16
+    }
+  ],
+  "row_count": 300,
+  "keys": [
+    "product_id"
+  ],
+  "sha256": "fde4bf084b78ef9c6bba0ebc956dc35cd5a32f5aab42a9b4446c3e21c3261520"
+}

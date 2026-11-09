@@ -1,0 +1,9 @@
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+# seed timestamps are deliberately naive (warehouse data has no tz)
+"data/seed/generate_seed.py" = ["DTZ001"]
+
+[tool.pytest.ini_options]
+testpaths = ["validation/tests", "tools/tests"]

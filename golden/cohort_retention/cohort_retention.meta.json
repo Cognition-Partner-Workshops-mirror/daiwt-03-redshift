@@ -1,0 +1,30 @@
+{
+  "columns": [
+    {
+      "name": "cohort_month",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "month_offset",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "cohort_size",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "active_buyers",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 65,
+  "keys": [
+    "cohort_month",
+    "month_offset"
+  ],
+  "sha256": "be4f93668aac43d9c4bc6168a7c647d43187ae0e84777d98b400c03274b95660"
+}

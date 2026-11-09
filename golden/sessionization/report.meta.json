@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "sessions",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "events",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "checkout_sessions",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 1500,
+  "keys": [
+    "customer_id"
+  ],
+  "sha256": "8bb749e8e2b40ef22a68d6e9ba93a950800976077274ebfed9a6d1788844e2c9"
+}

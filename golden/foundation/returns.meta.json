@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "return_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "order_item_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "quantity",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "reason",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "returned_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    }
+  ],
+  "row_count": 2518,
+  "keys": [
+    "return_id"
+  ],
+  "sha256": "2c17cccc41e6b9039d765e9113b2dca97a27443ca6c3f33b4998679fcadd8628"
+}

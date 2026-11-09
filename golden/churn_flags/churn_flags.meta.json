@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "last_order_date",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "days_since_order",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "churn_flag",
+      "family": "string",
+      "redshift_type_oid": 1043
+    }
+  ],
+  "row_count": 1500,
+  "keys": [
+    "customer_id"
+  ],
+  "sha256": "1730610978c665893533da0a87cf09755e5daf81374bfd2e6c50b0c93c5c7e61"
+}

@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "sales_channel",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "median_order_value",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "p90_order_value",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 4,
+  "keys": [
+    "sales_channel"
+  ],
+  "sha256": "803183646fcc150c67384931f80a635505c0756a51431bcf7902c5ca5edb7f0d"
+}

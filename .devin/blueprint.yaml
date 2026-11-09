@@ -1,0 +1,11 @@
+maintenance: |
+  pip install -r requirements.txt
+knowledge:
+  - name: source-operations
+    contents: |
+      make setup provisions the private AWS source; make reset recreates only
+      core/mart in daiwt_03_retail. Requires explicit operator authorization.
+      Secrets Manager daiwt-03-redshift-connection holds credentials; use the
+      Redshift Data API in us-east-1. Never write credentials to disk.
+      make check is offline. MIG_CATALOG defaults to daiwt_03; it is empty.
+      Do not run validation or remote target setup during source preparation.

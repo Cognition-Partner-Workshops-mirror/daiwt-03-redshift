@@ -1,0 +1,54 @@
+{
+  "columns": [
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "email",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "first_name",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "last_name",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "phone",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "region",
+      "family": "string",
+      "redshift_type_oid": 1042
+    },
+    {
+      "name": "preferred_store_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "signup_date",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "is_business",
+      "family": "bool",
+      "redshift_type_oid": 16
+    }
+  ],
+  "row_count": 1500,
+  "keys": [
+    "customer_id"
+  ],
+  "sha256": "4c1f405b08248c61fb782939c043bc8caee6ab860475ccce870927813a98cb15"
+}

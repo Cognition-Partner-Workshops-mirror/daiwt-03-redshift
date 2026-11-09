@@ -1,0 +1,39 @@
+{
+  "columns": [
+    {
+      "name": "order_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "store_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "order_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    },
+    {
+      "name": "sales_channel",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "status",
+      "family": "string",
+      "redshift_type_oid": 1043
+    }
+  ],
+  "row_count": 20000,
+  "keys": [
+    "order_id"
+  ],
+  "sha256": "9c1b8471231e5dec85bd3cb3e467475a35d3df7a9d50569b5ff12ee1b97240a9"
+}

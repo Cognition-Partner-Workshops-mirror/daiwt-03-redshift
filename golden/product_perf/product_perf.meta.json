@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "product_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "category",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "units_sold",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "top_stores",
+      "family": "string",
+      "redshift_type_oid": 1043
+    }
+  ],
+  "row_count": 300,
+  "keys": [
+    "product_id"
+  ],
+  "sha256": "34bcea53ff9f11ee5fe36e09d9cc0dc1d1cb1b2e0e6818def35c932a299c86c8"
+}

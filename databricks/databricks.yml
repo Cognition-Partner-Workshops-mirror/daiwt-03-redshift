@@ -1,0 +1,23 @@
+bundle:
+  name: retail-analytics
+
+variables:
+  catalog:
+    description: Target catalog for migration outputs
+    default: daiwt_03
+  warehouse_id:
+    description: SQL warehouse for validation / SQL tasks.
+    # No default — set with `databricks bundle deploy --var warehouse_id=<id>`
+    # or env BUNDLE_VAR_warehouse_id.
+
+# Wave 2 fills resources: the Lakeflow job built from
+# legacy/redshift/99_orchestration/refresh_schedule.yaml plus the migrated
+# unit SQL tasks. Intentionally empty in the "before" estate.
+resources: {}
+
+targets:
+  dev:
+    default: true
+    mode: development
+    variables:
+      catalog: daiwt_03

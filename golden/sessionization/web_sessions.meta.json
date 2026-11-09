@@ -1,0 +1,40 @@
+{
+  "columns": [
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "session_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "session_start_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    },
+    {
+      "name": "session_end_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    },
+    {
+      "name": "event_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "checkout_events",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 21280,
+  "keys": [
+    "customer_id",
+    "session_id"
+  ],
+  "sha256": "e45e501bf0cc084d04217a30b216f0d335f290e1b0058cd6b009ff6af6e5ad77"
+}

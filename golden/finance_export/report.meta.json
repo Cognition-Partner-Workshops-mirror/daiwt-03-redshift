@@ -1,0 +1,30 @@
+{
+  "columns": [
+    {
+      "name": "fiscal_year",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "fiscal_qtr",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 5,
+  "keys": [
+    "fiscal_year",
+    "fiscal_qtr"
+  ],
+  "sha256": "8453893688aa18c46443d33b42fe5a569bbb6b306cc16158d3fc85cec3e76cd3"
+}

@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "category",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "units_sold",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "revenue_share",
+      "family": "float",
+      "redshift_type_oid": 701
+    }
+  ],
+  "row_count": 6,
+  "keys": [
+    "category"
+  ],
+  "sha256": "df1bb4a75ab433190472e8477079c1f59665ae7cf9f1dc984eedfd61b9c8345e"
+}

@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "rfm_segment",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "customers",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "total_monetary",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "avg_frequency",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 103,
+  "keys": [
+    "rfm_segment"
+  ],
+  "sha256": "67bea1e154c8ce7feae1501622c9ab75b4f30830518d068b19756d40be6b73cb"
+}

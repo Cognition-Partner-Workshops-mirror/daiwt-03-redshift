@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "category",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "sold_qty",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "returned_qty",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "return_rate_int",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "return_pct",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 6,
+  "keys": [
+    "category"
+  ],
+  "sha256": "c28831d93597b20328701dc2bfb0a87ac7310b30783b0dd5f6ed482e0e9ff117"
+}

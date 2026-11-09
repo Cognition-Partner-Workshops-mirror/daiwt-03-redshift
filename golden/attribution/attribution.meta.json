@@ -1,0 +1,30 @@
+{
+  "columns": [
+    {
+      "name": "campaign_id",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "touch_channel",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "touches",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "customers_reached",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 100,
+  "keys": [
+    "campaign_id",
+    "touch_channel"
+  ],
+  "sha256": "9024574d17b1465244c75813ff66944a15eb2b246213606e99765dad36e50900"
+}

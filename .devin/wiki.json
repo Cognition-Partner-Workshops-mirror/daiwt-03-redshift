@@ -1,0 +1,77 @@
+{
+  "repo_notes": [
+    {
+      "content": "Document this repository as what its source is: a retail order-analytics data warehouse built on Amazon Redshift. The core of the codebase is legacy/redshift/ (foundation DDL and UDFs, 18 mart units each with an etl.sql build script and a report.sql BI query, and the nightly orchestration in 99_orchestration/), plus the deterministic seed data in data/seed/ and the captured reference outputs in golden/. The Overview (home) page must be a system briefing: the business domain, the core -> mart -> report architecture, the nightly refresh, and the repository layout. Do NOT describe the repository on the Overview page as a migration project, migration demo, migration framework or kit, and do not mention Databricks, Lakebridge, migration waves, child sessions, Devin, or the files in demo-ops/, .agents/, AGENTS.md or .migration/ on the Overview page. Migration context is provided separately and should not appear in the wiki's framing of the repo."
+    },
+    {
+      "content": "Only the final page, 'Databricks Environment & Reconciliation Tooling', may cover databricks/, validation/, tools/databricks_setup.py, tools/check_manifest.py and .migration/units.yaml. Describe those factually as environment setup and output-reconciliation tooling. Do not document demo-ops/ or .agents/ anywhere in the wiki."
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "System briefing for the retail order-analytics warehouse on Amazon Redshift: what business questions it answers (revenue, customers, marketing, operations, finance), the layered architecture (core.* foundation tables loaded from extracts, mart.* tables built by per-subject ETL scripts, report queries consumed by BI), the nightly refresh job, key technologies (Amazon Redshift, Redshift SQL, Python tooling, Make), and a map of the repository layout. Must not frame the repository as a migration project or demo.",
+      "parent": null
+    },
+    {
+      "title": "Core Data Model",
+      "purpose": "Document legacy/redshift/00_foundation/: the core and mart schemas, the ten core.* tables (customers, stores, products, orders, order_items, payments, returns, shipments, web_events, campaign_touches), their columns and relationships, explicit BIGINT keys, and Redshift physical design choices (DISTKEY, SORTKEY, DISTSTYLE, ENCODE, CHAR columns, SUPER semi-structured data).",
+      "parent": null
+    },
+    {
+      "title": "SQL UDFs",
+      "purpose": "Document the scalar SQL UDFs in legacy/redshift/00_foundation/03_udfs.sql (f_fiscal_qtr, f_clean_phone): inputs, outputs, logic and which marts use them.",
+      "parent": "Core Data Model"
+    },
+    {
+      "title": "Analytics Marts",
+      "purpose": "Explain the mart layer under legacy/redshift/units/: the per-unit convention (etl.sql builds mart.<unit>, report.sql is the BI query over it, finance_export also has export.sql), how marts read core.* tables, the deterministic 'as of 2025-12-31' convention, and an index of all 18 marts grouped by subject area.",
+      "parent": null
+    },
+    {
+      "title": "Sales & Revenue Marts",
+      "purpose": "Document the daily_revenue, store_weekly, category_mix, product_perf, geo_rollup, payment_mix and finance_export units: the metrics each mart produces, grain and keys, and notable Redshift SQL used (DATE_TRUNC/DATEADD/DATEDIFF(week), RATIO_TO_REPORT, LISTAGG WITHIN GROUP, GROUPING SETS, DECODE/NVL/NVL2, the f_fiscal_qtr UDF), plus the finance_export UNLOAD to S3.",
+      "parent": "Analytics Marts"
+    },
+    {
+      "title": "Customer Marts",
+      "purpose": "Document the customer_ltv, churn_flags, rfm_segments and cohort_retention units: lifetime value (CHAR padding, NUMERIC averages), churn flagging via a plpgsql stored procedure with temp tables, RFM scoring (NTILE, NULL ordering), and the cohort retention matrix built with TEMP table steps and DATEDIFF(month); grain and keys for each.",
+      "parent": "Analytics Marts"
+    },
+    {
+      "title": "Marketing & Digital Marts",
+      "purpose": "Document the attribution, promo_lift, sessionization and basket_affinity units: campaign attribution over SUPER payloads with PartiQL unnesting, promotion lift (MEDIAN, PERCENTILE_CONT), web event sessionization (LAG, DATEDIFF(second) gaps, running session ids), and basket affinity product pairs; grain and keys for each.",
+      "parent": "Analytics Marts"
+    },
+    {
+      "title": "Operations Marts",
+      "purpose": "Document the shipping_sla, returns_rate and inventory_snapshot units: shipping SLA measurement (DATEDIFF(hour) boundary counting, CONVERT_TIMEZONE), return rates (integer division, NUMERIC casts), and inventory snapshots built by a plpgsql procedure with a staging temp table and DELETE/INSERT upsert; grain and keys for each.",
+      "parent": "Analytics Marts"
+    },
+    {
+      "title": "Nightly Refresh & Executive Summary",
+      "purpose": "Document legacy/redshift/99_orchestration/: the nightly_mart_refresh job in refresh_schedule.yaml (schedule, step order and dependencies) and the exec_summary mart and report that join four subject marts into an executive view.",
+      "parent": null
+    },
+    {
+      "title": "Redshift SQL Idioms Reference",
+      "purpose": "Cross-cutting reference of the Redshift-specific SQL constructs used across the warehouse and where each appears: CHAR padding, NUMERIC result scale, integer division, DECODE/NVL/NVL2, GROUPING SETS, LISTAGG WITHIN GROUP, DATEDIFF boundary counting, CONVERT_TIMEZONE, RATIO_TO_REPORT, NTILE, MEDIAN/PERCENTILE_CONT, SUPER/PartiQL, plpgsql stored procedures, TEMP tables and UNLOAD.",
+      "parent": null
+    },
+    {
+      "title": "Seed Data & Reference Outputs",
+      "purpose": "Document data/seed/generate_seed.py (deterministic random.Random(42) generator anchored to 2025-12-31) and the committed seed CSVs, and golden/ (captured Redshift outputs per mart and report, PROVENANCE.json with commit, Redshift version and seed checksums).",
+      "parent": null
+    },
+    {
+      "title": "Build, Operations & Configuration",
+      "purpose": "Document how the warehouse is built and operated: tools/legacy_redshift.py (Redshift setup, load, build and output capture), Makefile targets, environment variables and .env.example, Python dependencies, ruff/pytest configuration, tests under tools/tests, and the GitHub Actions CI workflow.",
+      "parent": null
+    },
+    {
+      "title": "Databricks Environment & Reconciliation Tooling",
+      "purpose": "Factually document databricks/databricks.yml (bundle, catalogs, variables), tools/databricks_setup.py (catalog, bronze/silver/gold schemas and the bronze raw volume, seed upload), the validation/ package (running SQL on a SQL warehouse, statement splitting, comparing results against golden/ with tolerances.yaml) and the .migration/units.yaml manifest with tools/check_manifest.py.",
+      "parent": null
+    }
+  ]
+}

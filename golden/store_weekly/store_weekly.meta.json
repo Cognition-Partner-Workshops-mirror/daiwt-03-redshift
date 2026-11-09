@@ -1,0 +1,40 @@
+{
+  "columns": [
+    {
+      "name": "store_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "week_start",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "week_end",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "week_number",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 2120,
+  "keys": [
+    "store_id",
+    "week_start"
+  ],
+  "sha256": "cef9813787431a1f21ae82fb96e3e2c201594b30f5f833ea7fbf1f53091f385f"
+}

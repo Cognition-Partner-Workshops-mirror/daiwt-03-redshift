@@ -1,0 +1,44 @@
+{
+  "columns": [
+    {
+      "name": "carrier",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "shipments",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "delivered",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "in_flight",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "avg_hours_to_deliver",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "max_hours_to_deliver",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "on_time_96h",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 4,
+  "keys": [
+    "carrier"
+  ],
+  "sha256": "1650ce135177fe47102ab4fc07a6e3a73332b4580e549175cd3f6e2ad48f5b9e"
+}

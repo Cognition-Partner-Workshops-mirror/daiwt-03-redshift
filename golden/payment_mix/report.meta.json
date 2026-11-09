@@ -1,0 +1,24 @@
+{
+  "columns": [
+    {
+      "name": "method_family",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "payment_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "amount_total",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 4,
+  "keys": [
+    "method_family"
+  ],
+  "sha256": "7b315b136630824b183f16062ddefde92fb783bd2d8c7cd60d3bc5d130813c8a"
+}

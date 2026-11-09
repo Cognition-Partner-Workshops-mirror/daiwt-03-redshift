@@ -1,0 +1,329 @@
+version: 1
+waves:
+  - {wave: "0",  width: 1,  units: [foundation]}
+  - {wave: "1a", width: 5,  units: [daily_revenue, customer_ltv, geo_rollup, churn_flags, product_perf]}
+  - {wave: "1b", width: 13, units: [store_weekly, category_mix, basket_affinity, sessionization,
+                                    shipping_sla, rfm_segments, promo_lift, payment_mix, returns_rate,
+                                    attribution, inventory_snapshot, finance_export, cohort_retention]}
+  - {wave: "2",  width: 1,  units: [orchestration]}
+units:
+  foundation:
+    wave: "0"
+    legacy: [legacy/redshift/00_foundation/01_schemas.sql,
+             legacy/redshift/00_foundation/02_core_tables.sql,
+             legacy/redshift/00_foundation/03_udfs.sql]
+    target_dir: databricks/foundation
+    reads: []
+    writes: [bronze.customers, bronze.stores, bronze.products, bronze.orders, bronze.order_items,
+             bronze.payments, bronze.returns, bronze.shipments, bronze.web_events, bronze.campaign_touches,
+             silver.customers, silver.stores, silver.products, silver.orders, silver.order_items,
+             silver.payments, silver.returns, silver.shipments, silver.web_events, silver.campaign_touches]
+    expected_lakebridge: clean
+    constructs: ["DISTKEY", "SORTKEY", "DISTSTYLE", "ENCODE", "CHAR", "SUPER"]
+    capture_skip: []
+    outputs:
+      - {name: customers,        table: silver.customers,        golden: golden/foundation/customers.csv,        keys: [customer_id]}
+      - {name: stores,           table: silver.stores,           golden: golden/foundation/stores.csv,           keys: [store_id]}
+      - {name: products,         table: silver.products,         golden: golden/foundation/products.csv,         keys: [product_id]}
+      - {name: orders,           table: silver.orders,           golden: golden/foundation/orders.csv,           keys: [order_id]}
+      - {name: order_items,      table: silver.order_items,      golden: golden/foundation/order_items.csv,      keys: [order_item_id]}
+      - {name: payments,         table: silver.payments,         golden: golden/foundation/payments.csv,         keys: [payment_id]}
+      - {name: returns,          table: silver.returns,          golden: golden/foundation/returns.csv,          keys: [return_id]}
+      - {name: shipments,        table: silver.shipments,        golden: golden/foundation/shipments.csv,        keys: [shipment_id]}
+      - {name: web_events,       table: silver.web_events,       golden: golden/foundation/web_events.csv,       keys: [event_id]}
+      - {name: campaign_touches, table: silver.campaign_touches, golden: golden/foundation/campaign_touches.csv, keys: [touch_id]}
+
+  daily_revenue:
+    wave: "1a"
+    legacy: [legacy/redshift/units/daily_revenue/etl.sql, legacy/redshift/units/daily_revenue/report.sql]
+    target_dir: databricks/units/daily_revenue
+    reads: [silver.orders, silver.order_items]
+    writes: [gold.daily_revenue]
+    expected_lakebridge: clean
+    constructs: ["DATE_TRUNC", "TRUNC", "SUM", "COUNT DISTINCT"]
+    capture_skip: []
+    outputs:
+      - {name: daily_revenue, table: gold.daily_revenue, golden: golden/daily_revenue/daily_revenue.csv, keys: [order_date, sales_channel]}
+      - {name: report, target_sql: databricks/units/daily_revenue/report.sql,
+         legacy_sql: legacy/redshift/units/daily_revenue/report.sql,
+         golden: golden/daily_revenue/report.csv, keys: [order_month, sales_channel]}
+
+  customer_ltv:
+    wave: "1a"
+    legacy: [legacy/redshift/units/customer_ltv/etl.sql, legacy/redshift/units/customer_ltv/report.sql]
+    target_dir: databricks/units/customer_ltv
+    reads: [silver.customers, silver.orders, silver.order_items]
+    writes: [gold.customer_ltv]
+    expected_lakebridge: mismatch
+    constructs: ["CHAR(4) padding", "AVG on NUMERIC(12,2)", "LEFT JOIN", "COALESCE"]
+    capture_skip: []
+    outputs:
+      - {name: customer_ltv, table: gold.customer_ltv, golden: golden/customer_ltv/customer_ltv.csv, keys: [customer_id]}
+      - {name: report, target_sql: databricks/units/customer_ltv/report.sql,
+         legacy_sql: legacy/redshift/units/customer_ltv/report.sql,
+         golden: golden/customer_ltv/report.csv, keys: [region]}
+
+  geo_rollup:
+    wave: "1a"
+    legacy: [legacy/redshift/units/geo_rollup/etl.sql, legacy/redshift/units/geo_rollup/report.sql]
+    target_dir: databricks/units/geo_rollup
+    reads: [silver.stores, silver.orders, silver.order_items]
+    writes: [gold.geo_rollup]
+    expected_lakebridge: clean
+    constructs: ["GROUPING SETS", "GROUPING", "COUNT DISTINCT"]
+    capture_skip: []
+    outputs:
+      - {name: geo_rollup, table: gold.geo_rollup, golden: golden/geo_rollup/geo_rollup.csv, keys: [grouping_id, region, state]}
+      - {name: report, target_sql: databricks/units/geo_rollup/report.sql,
+         legacy_sql: legacy/redshift/units/geo_rollup/report.sql,
+         golden: golden/geo_rollup/report.csv, keys: [grouping_id, region, state]}
+
+  churn_flags:
+    wave: "1a"
+    legacy: [legacy/redshift/units/churn_flags/etl.sql, legacy/redshift/units/churn_flags/report.sql]
+    target_dir: databricks/units/churn_flags
+    reads: [silver.customers, silver.orders]
+    writes: [gold.churn_flags]
+    expected_lakebridge: rejected
+    constructs: ["plpgsql procedure", "FOR loop", "temp table", "CALL", "date arithmetic"]
+    capture_skip: []
+    outputs:
+      - {name: churn_flags, table: gold.churn_flags, golden: golden/churn_flags/churn_flags.csv, keys: [customer_id]}
+      - {name: report, target_sql: databricks/units/churn_flags/report.sql,
+         legacy_sql: legacy/redshift/units/churn_flags/report.sql,
+         golden: golden/churn_flags/report.csv, keys: [churn_flag]}
+
+  product_perf:
+    wave: "1a"
+    legacy: [legacy/redshift/units/product_perf/etl.sql, legacy/redshift/units/product_perf/report.sql]
+    target_dir: databricks/units/product_perf
+    reads: [silver.products, silver.order_items, silver.orders, silver.stores]
+    writes: [gold.product_perf]
+    expected_lakebridge: mismatch
+    constructs: ["LISTAGG WITHIN GROUP", "ROW_NUMBER", "::casts"]
+    capture_skip: []
+    outputs:
+      - {name: product_perf, table: gold.product_perf, golden: golden/product_perf/product_perf.csv, keys: [product_id]}
+      - {name: report, target_sql: databricks/units/product_perf/report.sql,
+         legacy_sql: legacy/redshift/units/product_perf/report.sql,
+         golden: golden/product_perf/report.csv, keys: [category]}
+
+  store_weekly:
+    wave: "1b"
+    legacy: [legacy/redshift/units/store_weekly/etl.sql, legacy/redshift/units/store_weekly/report.sql]
+    target_dir: databricks/units/store_weekly
+    reads: [silver.orders, silver.order_items, silver.stores]
+    writes: [gold.store_weekly]
+    expected_lakebridge: clean
+    constructs: ["DATE_TRUNC('week')", "DATEADD", "DATEDIFF(week)"]
+    capture_skip: []
+    outputs:
+      - {name: store_weekly, table: gold.store_weekly, golden: golden/store_weekly/store_weekly.csv, keys: [store_id, week_start]}
+      - {name: report, target_sql: databricks/units/store_weekly/report.sql,
+         legacy_sql: legacy/redshift/units/store_weekly/report.sql,
+         golden: golden/store_weekly/report.csv, keys: [store_id]}
+
+  category_mix:
+    wave: "1b"
+    legacy: [legacy/redshift/units/category_mix/etl.sql, legacy/redshift/units/category_mix/report.sql]
+    target_dir: databricks/units/category_mix
+    reads: [silver.products, silver.order_items]
+    writes: [gold.category_mix]
+    expected_lakebridge: clean
+    constructs: ["RATIO_TO_REPORT", "window function over aggregate"]
+    capture_skip: []
+    outputs:
+      - {name: category_mix, table: gold.category_mix, golden: golden/category_mix/category_mix.csv, keys: [category]}
+      - {name: report, target_sql: databricks/units/category_mix/report.sql,
+         legacy_sql: legacy/redshift/units/category_mix/report.sql,
+         golden: golden/category_mix/report.csv, keys: [category]}
+
+  basket_affinity:
+    wave: "1b"
+    legacy: [legacy/redshift/units/basket_affinity/etl.sql, legacy/redshift/units/basket_affinity/report.sql]
+    target_dir: databricks/units/basket_affinity
+    reads: [silver.order_items, silver.products]
+    writes: [gold.basket_affinity]
+    expected_lakebridge: clean
+    constructs: ["self-join pairs", "HAVING threshold", "COUNT DISTINCT"]
+    capture_skip: []
+    outputs:
+      - {name: basket_affinity, table: gold.basket_affinity, golden: golden/basket_affinity/basket_affinity.csv,
+         keys: [product_id_a, product_id_b]}
+      - {name: report, target_sql: databricks/units/basket_affinity/report.sql,
+         legacy_sql: legacy/redshift/units/basket_affinity/report.sql,
+         golden: golden/basket_affinity/report.csv, keys: [product_id_a, product_id_b]}
+
+  sessionization:
+    wave: "1b"
+    legacy: [legacy/redshift/units/sessionization/etl.sql, legacy/redshift/units/sessionization/report.sql]
+    target_dir: databricks/units/sessionization
+    reads: [silver.web_events]
+    writes: [gold.web_sessions]
+    expected_lakebridge: clean
+    constructs: ["LAG", "DATEDIFF(second) gap", "running SUM session id"]
+    capture_skip: []
+    outputs:
+      - {name: web_sessions, table: gold.web_sessions, golden: golden/sessionization/web_sessions.csv,
+         keys: [customer_id, session_id]}
+      - {name: report, target_sql: databricks/units/sessionization/report.sql,
+         legacy_sql: legacy/redshift/units/sessionization/report.sql,
+         golden: golden/sessionization/report.csv, keys: [customer_id]}
+
+  shipping_sla:
+    wave: "1b"
+    legacy: [legacy/redshift/units/shipping_sla/etl.sql, legacy/redshift/units/shipping_sla/report.sql]
+    target_dir: databricks/units/shipping_sla
+    reads: [silver.shipments]
+    writes: [gold.shipping_sla]
+    expected_lakebridge: mismatch
+    constructs: ["DATEDIFF(hour) boundary counting", "CONVERT_TIMEZONE", "EXTRACT(HOUR)"]
+    capture_skip: []
+    outputs:
+      - {name: shipping_sla, table: gold.shipping_sla, golden: golden/shipping_sla/shipping_sla.csv, keys: [carrier]}
+      - {name: report, target_sql: databricks/units/shipping_sla/report.sql,
+         legacy_sql: legacy/redshift/units/shipping_sla/report.sql,
+         golden: golden/shipping_sla/report.csv, keys: [carrier]}
+
+  rfm_segments:
+    wave: "1b"
+    legacy: [legacy/redshift/units/rfm_segments/etl.sql, legacy/redshift/units/rfm_segments/report.sql]
+    target_dir: databricks/units/rfm_segments
+    reads: [silver.customers, silver.orders, silver.order_items]
+    writes: [gold.rfm_segments]
+    expected_lakebridge: mismatch
+    constructs: ["NTILE(5)", "implicit NULL ordering (no NULLS LAST)", "DATEDIFF(day)"]
+    capture_skip: []
+    outputs:
+      - {name: rfm_segments, table: gold.rfm_segments, golden: golden/rfm_segments/rfm_segments.csv, keys: [customer_id]}
+      - {name: report, target_sql: databricks/units/rfm_segments/report.sql,
+         legacy_sql: legacy/redshift/units/rfm_segments/report.sql,
+         golden: golden/rfm_segments/report.csv, keys: [rfm_segment]}
+
+  promo_lift:
+    wave: "1b"
+    legacy: [legacy/redshift/units/promo_lift/etl.sql, legacy/redshift/units/promo_lift/report.sql]
+    target_dir: databricks/units/promo_lift
+    reads: [silver.orders, silver.order_items]
+    writes: [gold.promo_lift]
+    expected_lakebridge: mismatch
+    constructs: ["MEDIAN", "PERCENTILE_CONT WITHIN GROUP"]
+    capture_skip: []
+    outputs:
+      - {name: promo_lift, table: gold.promo_lift, golden: golden/promo_lift/promo_lift.csv, keys: [sales_channel]}
+      - {name: report, target_sql: databricks/units/promo_lift/report.sql,
+         legacy_sql: legacy/redshift/units/promo_lift/report.sql,
+         golden: golden/promo_lift/report.csv, keys: [sales_channel]}
+
+  payment_mix:
+    wave: "1b"
+    legacy: [legacy/redshift/units/payment_mix/etl.sql, legacy/redshift/units/payment_mix/report.sql]
+    target_dir: databricks/units/payment_mix
+    reads: [silver.payments]
+    writes: [gold.payment_mix]
+    expected_lakebridge: mismatch
+    constructs: ["DECODE", "NVL", "NVL2", "window share"]
+    capture_skip: []
+    outputs:
+      - {name: payment_mix, table: gold.payment_mix, golden: golden/payment_mix/payment_mix.csv, keys: [method]}
+      - {name: report, target_sql: databricks/units/payment_mix/report.sql,
+         legacy_sql: legacy/redshift/units/payment_mix/report.sql,
+         golden: golden/payment_mix/report.csv, keys: [method_family]}
+
+  returns_rate:
+    wave: "1b"
+    legacy: [legacy/redshift/units/returns_rate/etl.sql, legacy/redshift/units/returns_rate/report.sql]
+    target_dir: databricks/units/returns_rate
+    reads: [silver.order_items, silver.products, silver.returns]
+    writes: [gold.returns_rate]
+    expected_lakebridge: mismatch
+    constructs: ["integer division", "::NUMERIC casts"]
+    capture_skip: []
+    outputs:
+      - {name: returns_rate, table: gold.returns_rate, golden: golden/returns_rate/returns_rate.csv, keys: [category]}
+      - {name: report, target_sql: databricks/units/returns_rate/report.sql,
+         legacy_sql: legacy/redshift/units/returns_rate/report.sql,
+         golden: golden/returns_rate/report.csv, keys: [category]}
+
+  attribution:
+    wave: "1b"
+    legacy: [legacy/redshift/units/attribution/etl.sql, legacy/redshift/units/attribution/report.sql]
+    target_dir: databricks/units/attribution
+    reads: [silver.campaign_touches]
+    writes: [gold.attribution]
+    expected_lakebridge: rejected
+    constructs: ["SUPER", "PartiQL unnesting (t, t.payload.touches tc)", "SUPER ::casts"]
+    capture_skip: []
+    outputs:
+      - {name: attribution, table: gold.attribution, golden: golden/attribution/attribution.csv,
+         keys: [campaign_id, touch_channel]}
+      - {name: report, target_sql: databricks/units/attribution/report.sql,
+         legacy_sql: legacy/redshift/units/attribution/report.sql,
+         golden: golden/attribution/report.csv, keys: [campaign_id]}
+
+  inventory_snapshot:
+    wave: "1b"
+    legacy: [legacy/redshift/units/inventory_snapshot/etl.sql, legacy/redshift/units/inventory_snapshot/report.sql]
+    target_dir: databricks/units/inventory_snapshot
+    reads: [silver.products, silver.order_items]
+    writes: [gold.inventory_snapshot]
+    expected_lakebridge: rejected
+    constructs: ["plpgsql procedure", "staging temp table", "DELETE/INSERT upsert", "CALL with arg"]
+    capture_skip: []
+    outputs:
+      - {name: inventory_snapshot, table: gold.inventory_snapshot,
+         golden: golden/inventory_snapshot/inventory_snapshot.csv, keys: [product_id]}
+      - {name: report, target_sql: databricks/units/inventory_snapshot/report.sql,
+         legacy_sql: legacy/redshift/units/inventory_snapshot/report.sql,
+         golden: golden/inventory_snapshot/report.csv, keys: [product_id]}
+
+  finance_export:
+    wave: "1b"
+    legacy: [legacy/redshift/units/finance_export/etl.sql, legacy/redshift/units/finance_export/report.sql,
+             legacy/redshift/units/finance_export/export.sql]
+    target_dir: databricks/units/finance_export
+    reads: [silver.orders, silver.order_items]
+    writes: [gold.finance_monthly]
+    expected_lakebridge: rejected
+    constructs: ["f_fiscal_qtr UDF", "UNLOAD TO s3 IAM_ROLE (never executed at capture)"]
+    capture_skip: [legacy/redshift/units/finance_export/export.sql]
+    outputs:
+      - {name: finance_monthly, table: gold.finance_monthly,
+         golden: golden/finance_export/finance_monthly.csv, keys: [month]}
+      - {name: report, target_sql: databricks/units/finance_export/report.sql,
+         legacy_sql: legacy/redshift/units/finance_export/report.sql,
+         golden: golden/finance_export/report.csv, keys: [fiscal_year, fiscal_qtr]}
+
+  cohort_retention:
+    wave: "1b"
+    legacy: [legacy/redshift/units/cohort_retention/etl.sql, legacy/redshift/units/cohort_retention/report.sql]
+    target_dir: databricks/units/cohort_retention
+    reads: [silver.orders]
+    writes: [gold.cohort_retention]
+    expected_lakebridge: rejected
+    constructs: ["CREATE TEMP TABLE steps", "DATEDIFF(month) retention matrix"]
+    capture_skip: []
+    outputs:
+      - {name: cohort_retention, table: gold.cohort_retention,
+         golden: golden/cohort_retention/cohort_retention.csv, keys: [cohort_month, month_offset]}
+      - {name: report, target_sql: databricks/units/cohort_retention/report.sql,
+         legacy_sql: legacy/redshift/units/cohort_retention/report.sql,
+         golden: golden/cohort_retention/report.csv, keys: [cohort_month, month_offset]}
+
+  orchestration:
+    wave: "2"
+    legacy: [legacy/redshift/99_orchestration/exec_summary/etl.sql,
+             legacy/redshift/99_orchestration/exec_summary/report.sql,
+             legacy/redshift/99_orchestration/refresh_schedule.yaml]
+    target_dir: databricks/orchestration
+    reads: [gold.daily_revenue, gold.customer_ltv, gold.returns_rate, gold.shipping_sla]
+    writes: [gold.exec_summary]
+    expected_lakebridge: clean
+    constructs: ["cross-mart joins", "scheduler yaml -> Lakeflow job"]
+    capture_skip: [legacy/redshift/99_orchestration/refresh_schedule.yaml]
+    outputs:
+      - {name: exec_summary, table: gold.exec_summary,
+         golden: golden/orchestration/exec_summary.csv, keys: [snapshot_label]}
+      - {name: report, target_sql: databricks/orchestration/exec_summary_report.sql,
+         legacy_sql: legacy/redshift/99_orchestration/exec_summary/report.sql,
+         golden: golden/orchestration/report.csv, keys: [snapshot_label]}

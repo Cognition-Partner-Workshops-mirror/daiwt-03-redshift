@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "event_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "event_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    },
+    {
+      "name": "event_type",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "page_url",
+      "family": "string",
+      "redshift_type_oid": 1043
+    }
+  ],
+  "row_count": 25000,
+  "keys": [
+    "event_id"
+  ],
+  "sha256": "eb19173633c852c610404b0322ee39b562bc673239515a1b29da6c0defafd334"
+}

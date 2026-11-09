@@ -1,0 +1,24 @@
+{
+  "columns": [
+    {
+      "name": "churn_flag",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "customers",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "avg_days_since_order",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 4,
+  "keys": [
+    "churn_flag"
+  ],
+  "sha256": "a8288842c78d17137d173a27f7e3680fd7b2b31856f2c9051376c548f8cf3ede"
+}

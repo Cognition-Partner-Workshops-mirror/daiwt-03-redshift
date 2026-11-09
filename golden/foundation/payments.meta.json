@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "payment_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "order_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "method",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "amount",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "paid_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    }
+  ],
+  "row_count": 20000,
+  "keys": [
+    "payment_id"
+  ],
+  "sha256": "9315d296857f1e3cbc6968602667006e96b47d58740a3778791c21d713f7c565"
+}

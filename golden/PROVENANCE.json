@@ -1,0 +1,19 @@
+{
+  "source": "Amazon Redshift Serverless",
+  "redshift_version": "PostgreSQL 8.0.2 on i686-pc-linux-gnu, compiled by GCC gcc (GCC) 3.4.2 20041017 (Red Hat 3.4.2-6.fc3), Redshift 1.0.436211\u0000",
+  "database": "mig_redshift_src",
+  "captured_at": "2026-09-30T21:55:31+00:00",
+  "git_commit": "4317c34eceeccd2666d3069aace229e64e14f9b1",
+  "seed_csv_sha256": {
+    "campaign_touches.csv": "dcf89294c68faa09c4bc38863b74ad4bc42a5b62659b4c2fd6729c19f0b7d02b",
+    "customers.csv": "34b77eaa49e0ebfa71bfeb36f2f5f6f6bd2c744f07465eeb06adf566e830702d",
+    "order_items.csv": "5c99ec986aba56fc811e6c4653edde2f466c079194c2d2d02103654c239bd39b",
+    "orders.csv": "dcd00c85d6226e38ca123ef10da750bbe8792e9c412bd62766861f0c7621f3a9",
+    "payments.csv": "afcecefefce5f1503b985bfb4eddfdd8fc9b1602a50da8ad096a10b79c1a4873",
+    "products.csv": "4d8ea2814cd6c827a1d52d7a7e348718bf57977a34d476a2070a0d9bff55084b",
+    "returns.csv": "3016e83db92c4a407accfa5eff724d6883e8d440e2674ae00e5ed56aba1fc7c4",
+    "shipments.csv": "6ff7adb0bf7171a28966e8c8d244bcd9c119c155ac14ff14a9235fd1989c3445",
+    "stores.csv": "b0482d42882b4fcc2eb68638e4e9f19f30aab5348d8bd6a7cbe4e8e38ed2747b",
+    "web_events.csv": "71d6edb3561cd7c11c60fb2647b7091df2bc6d946b9c8409563f63a925a4f41e"
+  }
+}

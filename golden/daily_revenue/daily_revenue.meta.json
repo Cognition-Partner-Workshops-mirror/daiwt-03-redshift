@@ -1,0 +1,30 @@
+{
+  "columns": [
+    {
+      "name": "order_date",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "sales_channel",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 1460,
+  "keys": [
+    "order_date",
+    "sales_channel"
+  ],
+  "sha256": "83ed9e9a785b3b96f0bd7e6f4c17ef4b8b8daa1233a8e4afff85d92ed7bdb60b"
+}

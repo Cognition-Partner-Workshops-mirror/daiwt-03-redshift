@@ -1,0 +1,5 @@
+carrier,shipments,delivered,in_flight,avg_hours_to_deliver,max_hours_to_deliver,on_time_96h,earliest_local_delivery_hour
+dhl,3138,2904,234,71.00,139,1982,0
+fedex,3198,2927,271,71.00,139,2031,0
+ups,3214,2981,233,71.00,139,2051,0
+usps,3267,3018,249,72.00,139,2040,0

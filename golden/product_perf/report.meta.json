@@ -1,0 +1,29 @@
+{
+  "columns": [
+    {
+      "name": "category",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "products",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "units_sold",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 6,
+  "keys": [
+    "category"
+  ],
+  "sha256": "dfcdbb76fee93e7d7dd3b6fe48040cb32e0b197adeec0c3b750d5facfadf3064"
+}

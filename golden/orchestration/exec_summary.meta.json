@@ -1,0 +1,44 @@
+{
+  "columns": [
+    {
+      "name": "snapshot_label",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "as_of_date",
+      "family": "date",
+      "redshift_type_oid": 1082
+    },
+    {
+      "name": "total_revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "total_orders",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "avg_customer_ltv",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "overall_return_pct",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "avg_ship_hours",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 1,
+  "keys": [
+    "snapshot_label"
+  ],
+  "sha256": "ec4ce1a9b6b5ee9efc264994a4a7fcd8cc550dc712373b191756f12d76c76246"
+}

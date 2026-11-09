@@ -1,0 +1,36 @@
+{
+  "columns": [
+    {
+      "name": "grouping_id",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "region",
+      "family": "string",
+      "redshift_type_oid": 1042
+    },
+    {
+      "name": "state",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "revenue",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 21,
+  "keys": [
+    "grouping_id",
+    "region",
+    "state"
+  ],
+  "sha256": "b4249398d1d03c0e42b31e4cba6688fa558f083c62797476cc320bb778a15de4"
+}

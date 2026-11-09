@@ -1,0 +1,39 @@
+{
+  "columns": [
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "region",
+      "family": "string",
+      "redshift_type_oid": 1042
+    },
+    {
+      "name": "clean_phone",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "order_count",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "ltv",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "aov",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    }
+  ],
+  "row_count": 1500,
+  "keys": [
+    "customer_id"
+  ],
+  "sha256": "c7c0ec590f0f4d64c2e57367edbff56959817730d0b0cd41f3ecec533ed23de6"
+}

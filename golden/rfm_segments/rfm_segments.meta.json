@@ -1,0 +1,49 @@
+{
+  "columns": [
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "recency_days",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "frequency",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "monetary",
+      "family": "decimal",
+      "redshift_type_oid": 1700
+    },
+    {
+      "name": "r_tile",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "f_tile",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "m_tile",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "rfm_segment",
+      "family": "string",
+      "redshift_type_oid": 1043
+    }
+  ],
+  "row_count": 1500,
+  "keys": [
+    "customer_id"
+  ],
+  "sha256": "1be7eddef7edfe9cfca2267e364f3e09e19d06a31a0415cb7cf6c331175f7745"
+}

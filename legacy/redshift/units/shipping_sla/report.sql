@@ -1,0 +1,5 @@
+-- BI report: carrier SLA as published.
+SELECT carrier, shipments, delivered, in_flight,
+       avg_hours_to_deliver, max_hours_to_deliver, on_time_96h
+FROM   mart.shipping_sla
+ORDER  BY carrier;

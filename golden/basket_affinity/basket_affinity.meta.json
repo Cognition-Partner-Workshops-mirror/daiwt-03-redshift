@@ -1,0 +1,25 @@
+{
+  "columns": [
+    {
+      "name": "product_id_a",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "product_id_b",
+      "family": "int",
+      "redshift_type_oid": 23
+    },
+    {
+      "name": "pair_orders",
+      "family": "int",
+      "redshift_type_oid": 20
+    }
+  ],
+  "row_count": 50,
+  "keys": [
+    "product_id_a",
+    "product_id_b"
+  ],
+  "sha256": "65d0f3eb78979422a48e8ca4f281e11ca79df5a8be1afdefe7112f3869286f25"
+}

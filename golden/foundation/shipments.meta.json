@@ -1,0 +1,34 @@
+{
+  "columns": [
+    {
+      "name": "shipment_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "order_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "carrier",
+      "family": "string",
+      "redshift_type_oid": 1043
+    },
+    {
+      "name": "ship_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    },
+    {
+      "name": "delivered_ts",
+      "family": "timestamp",
+      "redshift_type_oid": 1114
+    }
+  ],
+  "row_count": 12817,
+  "keys": [
+    "shipment_id"
+  ],
+  "sha256": "91e254bcdcd9b8a8142aba3bb43198a9dc3c38e428e32f7c8177531dcd4b8e46"
+}

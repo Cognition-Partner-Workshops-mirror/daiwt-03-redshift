@@ -1,0 +1,24 @@
+{
+  "columns": [
+    {
+      "name": "touch_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "customer_id",
+      "family": "int",
+      "redshift_type_oid": 20
+    },
+    {
+      "name": "payload",
+      "family": "string",
+      "redshift_type_oid": 4000
+    }
+  ],
+  "row_count": 8000,
+  "keys": [
+    "touch_id"
+  ],
+  "sha256": "4fb0cf358cc10b790196b34ab54523c3137028f2a301c180fffd0b5187e76560"
+}

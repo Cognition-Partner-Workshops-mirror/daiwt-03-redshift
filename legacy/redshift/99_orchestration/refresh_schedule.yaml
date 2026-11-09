@@ -1,0 +1,39 @@
+# Legacy nightly scheduler job definition. Ordered steps; each step runs after
+# its dependencies succeed. Converted to a Lakeflow job in wave 2.
+job: nightly_mart_refresh
+schedule: "0 2 * * *"
+timezone: UTC
+steps:
+  - name: load_core
+    runs: tools/legacy_redshift.py setup --ddl-only
+    depends_on: []
+  - name: wave_1a
+    runs:
+      - units/daily_revenue/etl.sql
+      - units/customer_ltv/etl.sql
+      - units/geo_rollup/etl.sql
+      - units/churn_flags/etl.sql
+      - units/product_perf/etl.sql
+    depends_on: [load_core]
+  - name: wave_1b
+    runs:
+      - units/store_weekly/etl.sql
+      - units/category_mix/etl.sql
+      - units/basket_affinity/etl.sql
+      - units/sessionization/etl.sql
+      - units/shipping_sla/etl.sql
+      - units/rfm_segments/etl.sql
+      - units/promo_lift/etl.sql
+      - units/payment_mix/etl.sql
+      - units/returns_rate/etl.sql
+      - units/attribution/etl.sql
+      - units/inventory_snapshot/etl.sql
+      - units/finance_export/etl.sql
+      - units/cohort_retention/etl.sql
+    depends_on: [load_core]
+  - name: exec_summary
+    runs: 99_orchestration/exec_summary/etl.sql
+    depends_on: [wave_1a, wave_1b]
+  - name: finance_export
+    runs: units/finance_export/export.sql
+    depends_on: [wave_1b]
